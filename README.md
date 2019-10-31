@@ -94,7 +94,7 @@ We want to restrict Terraform to a namespace to limit the blast radius. So First
 
     cd namespace
     terraform init
-    terraform plan
+    terraform apply
 
 If that doesn't work, it's simply because you haven't exported `VAULT_ADDR` and `VAULT_TOKEN` environement variable to allow our Terraform Vault provider to authenticate.
 
@@ -132,3 +132,22 @@ You're now ready for the real deal. Go back to the root of this project and run 
     terraform apply
 
 Everything should now be ready for applications to consume this namespace secrets.
+
+## Testing
+
+To verify that everything went according to plan, launch a minimal pod 
+
+    kubectl run test --rm -i --tty \
+    --env="VAULT_ADDR=https://<VAULT_IP>:<VAULT_PORT>" \
+    --image alpine:latest -- /bin/sh
+
+in the corresponding Kubernetes namespace and run inside it
+
+    apk update; apk add curl jq
+    JWT=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+    curl --request POST \
+         --header "X-Vault-Namespace: <YOURNAMESPACE>" \
+         --data '{"jwt": "'"$JWT"'", "role": "<YOURROLE>"}' \
+        $VAULT_ADDR/v1/auth/k8s/login | jq
+
+You should get back a token from Vault.

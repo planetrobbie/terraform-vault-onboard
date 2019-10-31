@@ -2,6 +2,16 @@ variable "kubernetes_host" {
   description = "Kubernetes API endpoint"
 }
 
+variable "kubernetes_namespace" {
+  description = "Kubernetes Namespace"
+  default = "default"
+}
+
+variable "kubernetes_sa" {
+  description = "Kubernetes Service Account"
+  default = "vault-auth"
+}
+
 variable "kubernetes_ca_cert" {
   description = "Kubernetes CA"
 }
