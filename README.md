@@ -151,3 +151,29 @@ in the corresponding Kubernetes namespace and run inside it
         $VAULT_ADDR/v1/auth/k8s/login | jq
 
 You should get back a token from Vault.
+
+Alternatively you can launch a vault pod which makes it even simpler
+
+    JWT=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+    kubectl run vault-shell --rm -i --tty \
+    --env="VAULT_ADDR=https://<VAULT_API>" \
+    --image vault:latest -- /bin/sh
+    vault write -tls-skip-verify auth/kubernetes/login role=<ROLE> jwt=$JWT
+
+If you grab the kubernetes token you can authenticate using vault
+
+    vault write auth/kubernetes/login role=<ROLE> jwt=<TOKEN>
+
+## Troubleshooting
+
+Instead of getting back a token you may have a message saying
+
+    * service account name not authorized
+
+It is mostly probably due to a wrong role setup, make sure the role allows the service account under which the pod is running. If no
+
+    serviceAccountName: <SERVICE_ACCOUNT>
+
+Is specified in the manifest it will run under `default`, so your role be configured with
+
+    bound_service_account_names=default

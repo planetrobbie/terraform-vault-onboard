@@ -9,7 +9,7 @@ variable "kubernetes_namespace" {
 
 variable "kubernetes_sa" {
   description = "Kubernetes Service Account"
-  default = "vault-auth"
+  default = "default"
 }
 
 variable "kubernetes_ca_cert" {
