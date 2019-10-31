@@ -170,22 +170,26 @@ Instead of getting back a token you may have a message saying
 
     * service account name not authorized
 
-It is mostly probably due to a wrong role setup, make sure the role allows the service account under which the pod is running. If no
+It is mostly probably due to a wrong role setup, make sure the role allows the service account under which the pod is running. If you don't have a line in your manifest saying
 
     serviceAccountName: <SERVICE_ACCOUNT>
 
-Is specified in the manifest it will run under `default`, so your role be configured with
+Your pod will run under `default`, so your role needs to be configured with
 
     bound_service_account_names=default
+
+or to allow all
+
+    bound_service_account_names=*
 
 If you want to check under which service account your pod is running you can use
 
     kubectl get po/<POD_NAME> -o yaml | grep serviceAccount
 
-If that's not the service account which is causing issues it could be the namespace, check that with
+If that's not the service account which is causing issues it could also be the namespace, check that with
 
     kubectl get po/<POD_NAME> -o yaml | grep namespace
 
-The Vault k8s role definition should match both service account and namespace.
+The Vault k8s role definition should match both service account and namespace, verify that with
 
      vault read -namespace=<VAULT_NAMESPACE>  auth/<k8s_auth_mount_point>/role/<ROLE>
