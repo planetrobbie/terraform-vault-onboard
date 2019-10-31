@@ -193,3 +193,8 @@ If that's not the service account which is causing issues it could also be the n
 The Vault k8s role definition should match both service account and namespace, verify that with
 
      vault read -namespace=<VAULT_NAMESPACE>  auth/<k8s_auth_mount_point>/role/<ROLE>
+
+## Links
+
+* HashiCorp Vault [documentation](https://learn.hashicorp.com/vault/identity-access-management/vault-agent-k8s)
+* Kubernetes Tips: [Using a ServiceAccount](https://medium.com/better-programming/k8s-tips-using-a-serviceaccount-801c433d0023)
