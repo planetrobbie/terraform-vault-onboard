@@ -177,3 +177,15 @@ It is mostly probably due to a wrong role setup, make sure the role allows the s
 Is specified in the manifest it will run under `default`, so your role be configured with
 
     bound_service_account_names=default
+
+If you want to check under which service account your pod is running you can use
+
+    kubectl get po/<POD_NAME> -o yaml | grep serviceAccount
+
+If that's not the service account which is causing issues it could be the namespace, check that with
+
+    kubectl get po/<POD_NAME> -o yaml | grep namespace
+
+The Vault k8s role definition should match both service account and namespace.
+
+     vault read -namespace=<VAULT_NAMESPACE>  auth/<k8s_auth_mount_point>/role/<ROLE>
