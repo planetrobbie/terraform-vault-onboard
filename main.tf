@@ -17,3 +17,10 @@ module "k8s" {
   token_reviewer_jwt = var.token_reviewer_jwt
   policy_name = var.policy_name
 }
+
+module "ssh" {
+  source = "./ssh"
+
+  ssh_ca_allowed_users = var.ssh_ca_allowed_users
+  ssh_otp_allowed_users = var.ssh_otp_allowed_users
+}

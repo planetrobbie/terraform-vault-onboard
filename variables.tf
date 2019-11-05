@@ -53,3 +53,15 @@ variable "max_lease_ttl_seconds" {
   description = "Maximum duration of lease validity"
   default = 10800
 }
+
+# SSH Secret Engine
+
+variable "ssh_ca_allowed_users" {
+  description = "comma-separated list of usernames that are to be allowed for CA based Auth"
+  default = "sebastien"
+}
+
+variable "ssh_otp_allowed_users" {
+  description = "comma-separated list of usernames that are to be allowed for OTP based Auth"
+  default = "sebastien"
+}

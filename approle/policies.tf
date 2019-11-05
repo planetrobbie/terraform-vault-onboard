@@ -61,5 +61,10 @@ path "auth/${var.k8s_path}/role/*" {
 path "${var.kv_path}/*" {
    capabilities = ["create", "read", "update", "delete", "list", "sudo"]
 }
+
+# Allow TF to operate ssh secret engine
+path "${var.ssh_path}/*" {
+  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
 EOF
 }

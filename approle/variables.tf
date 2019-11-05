@@ -35,3 +35,8 @@ variable "max_lease_ttl_seconds" {
   description = "Maximum duration of lease validity"
   default = 10800
 }
+
+variable "ssh_path" {
+  description = "where ssh secret engine will be mounted"
+  default     = "ssh"
+}
