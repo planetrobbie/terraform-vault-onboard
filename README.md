@@ -166,11 +166,22 @@ If you grab the kubernetes token you can authenticate using vault
 
 ## Troubleshooting
 
+### SSH
+
 To troubleshoot SSH related issues, you can check the content of your signed key online pasting it into
 
     https://gravitational.com/resources/ssh-certificate-parser/
 
 Instead of getting back a token you may have a message saying
+
+If everything looks good in your signed certificate but you still can connect investigate further by looking at the logs of the target machine
+
+    tail -f /var/log/auth.log
+
+
+### Kubernetes
+
+When trying to authenticate if you get a message like
 
     * service account name not authorized
 
