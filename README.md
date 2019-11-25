@@ -2,6 +2,22 @@
 
 Project onboarding automation on HashiCorp Vault Enterprise using Terraform Vault provider.
 
+By leveraging the code in this repository you can automated the configuration of your HashiCorp Vault Cluster to enable the following use cases
+
+* Authenticate application running in Kubernetes Pods
+* Authenticate instances running on Google Cloud Platform
+* Open SSH access to instances using signed SSH public keys
+* Automate Instance onboarding to Vault SSH Secret Engine.
+ 
+To support these uses cases this code also
+
+* create a Vault namespace [require HashiCorp Vault Enterprise]
+* create an AppRole auth backend for Terraform Vault Provider
+* configure Vault policies
+* mount a K/V Secret Engine
+
+And more to come !!! stay tuned ;)
+
 ## Requirements:
 
 * [Terraform 0.12](https://www.terraform.io/)
