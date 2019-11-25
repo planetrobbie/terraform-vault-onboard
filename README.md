@@ -252,6 +252,12 @@ The Vault k8s role definition should match both service account and namespace, v
 
      vault read -namespace=<VAULT_NAMESPACE>  auth/<k8s_auth_mount_point>/role/<ROLE>
 
+### Google Cloud Authentication
+
+If you can't get your instance authenticated to Vault, make sure its zone and project match what you've configured within your GCP Auth backend role. Look at your role carefully and compare it with the instance details.
+
+    vault read auth/gcp/role/<GCP_ROLE_NAME>
+
 ## Links
 
 * HashiCorp Vault [documentation](https://learn.hashicorp.com/vault/identity-access-management/vault-agent-k8s)
