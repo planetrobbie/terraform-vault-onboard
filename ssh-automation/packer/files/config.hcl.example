@@ -1,0 +1,31 @@
+exit_after_auth = true
+pid_file = "/home/ubuntu/pidfile"
+
+vault {
+  address = "https://vault.prod.yet.org"
+}
+
+auto_auth {
+    method "gcp" {
+        type = "gcp"
+        mount_path = "auth/gcp"
+        namespace = ""
+        config     = {
+            type = "gce"
+            role = "gce"
+        }
+    }
+
+    sink "file" {
+        config = {
+            path = "/home/ubuntu/.vault-token"
+        }
+    }
+}
+
+template "trusted-ca" {
+  destination = "/etc/ssh/trusted-user-ca-keys.pem"
+  contents = <<EOH
+{{- with secret "ssh/config/ca" }}{{ .Data.public_key }}{{ end }}
+EOH
+}

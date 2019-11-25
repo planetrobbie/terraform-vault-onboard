@@ -8,21 +8,22 @@ Project onboarding automation on HashiCorp Vault Enterprise using Terraform Vaul
 * [Terraform Vault provider](https://www.terraform.io/docs/providers/vault/index.html)
 * [Vault Enterprise](https://www.hashicorp.com/products/vault/enterprise)
 * [Kubernetes cluster](https://learn.hashicorp.com/vault/identity-access-management/vault-agent-k8s)
-
+* [Google Cloud Project](https://console.cloud.google.com)
+ 
 ## Setup
 
 First of all you need to export the following environment variables in your shell environment. But if you're using Terraform Cloud or Enterprise you can easily do so from the UI, just remove `TF_VAR_`. When setting them up in Terraform Cloud or Enterprise, just keep the variable name itself.
 
 So if you're using Terraform Open Source, just export values for the following environment variables, we've kept some values, feel free to change any of them.
 
-### Vault variables
+### Configure Vault variables
 
-You need to have administrative privileges on your Vault cluster which would allow you to create namespace and mount an AppRole auth backend and generate a Role ID and Secret ID for Terraform. To do that, you can export the following environment variables. You'll find an example in the file ```set-example.sh```.
+You need to have administrative privileges on your Vault cluster which would allow you to create namespace and mount an AppRole auth backend and generate a Role ID and Secret ID for Terraform. To do that, you can export the following main environment variables.
 
     export VAULT_ADDR="https://VAULT_API_ENDPOINT"
     export VAULT_TOKEN="<VAULT_TOKEN>"
 
-Then export all the following variables.
+You'll find all the remaining environment variables gathered into `set-example.sh`, edit this file to customize it to your wishes.
 
 Namespace where your project onboarding will take place
     
@@ -44,7 +45,7 @@ Path where to mound a Kubernetes Auth Backend
 
     export TF_VAR_k8s_path 
 
-### Kubernetes variables
+### Configure Kubernetes variables
 
     TF_VAR_kubernetes_host: Kubernetes API endpoint for example https://api.k8s.foobar.com
     VAULT_SA_NAME: $(kubectl get sa vault-auth -o jsonpath="{.secrets[*]['name']}")
@@ -88,7 +89,23 @@ As a example you could have in the above variable something like
     EOF
     )
 
-## Namespace
+### Configure Google Auth Backend variables
+
+The most important variable is your Google credentials, just paste in your `set.sh` below
+
+    # GCP Auth backend
+    export TF_VAR_gcp_credentials=$(cat <<EOF
+    <GOOGLE CLOUD CREDENTIALS HERE>
+    EOF
+    )
+
+### Export Environment variables
+
+Make sure your kubernetes cluster is up and running and export all of the above environment variables.
+
+    source set.sh
+
+## Create your namespace
 
 We want to restrict Terraform to a namespace to limit the blast radius. So First things first, we initially need a namespace. Create it like that
 
@@ -98,7 +115,7 @@ We want to restrict Terraform to a namespace to limit the blast radius. So First
 
 If that doesn't work, it's simply because you haven't exported `VAULT_ADDR` and `VAULT_TOKEN` environement variable to allow our Terraform Vault provider to authenticate.
 
-## AppRole Auth Backend
+## Enable AppRole Auth Backend
 
 Now that we have our namespace created above, we've configured Terraform Vault Provider to act on it, See the definition below in `approle/main.tf`
 
@@ -117,7 +134,7 @@ You can first run the following commands to mount and create a secret.
     terraform init
     terraform apply
 
-End this section by grabbing the above output to update the following last two variables
+End this section by grabbing the above output to update the following last two variables in your `set-example.sh`
 
     export TF_VAR_role_id="<ROLE_ID>"
     export TF_VAR_secret_id="<SECRET_ID>"
@@ -125,6 +142,10 @@ End this section by grabbing the above output to update the following last two v
 Note: Secret ID above is a highly sensitive variable, make sure you don't keep the corresponding command line in your shell history.
 
 ## Final provisioning.
+
+Before you can run the overall provisionning within the created namespace you need to source your set-example to inject the role_id and secret_id created in the previous step
+
+    source set-example.sh
 
 You're now ready for the real deal. Go back to the root of this project and run terraform
 
@@ -134,6 +155,8 @@ You're now ready for the real deal. Go back to the root of this project and run 
 Everything should now be ready for applications to consume this namespace secrets.
 
 ## Testing
+
+### Kubernetes Authentication
 
 To verify that everything went according to plan, launch a minimal pod 
 
@@ -163,6 +186,26 @@ Alternatively you can launch a vault pod which makes it even simpler
 If you grab the kubernetes token you can authenticate using vault
 
     vault write auth/kubernetes/login role=<ROLE> jwt=<TOKEN>
+
+### Google Cloud Authentication
+
+To verify that your GCP Auth backend is correctly configured, launch an instance which qualify, zone and project should match. Once you're inside it, first grab your JWT token
+
+    export JWT_TOKEN="$(curl -sS -H 'Metadata-Flavor: Google' --get --data-urlencode 'audience=http://vault/<GCP_ROLE_NAME>' --data-urlencode 'format=full' 'http://metadata/computeMetadata/v1/instance/service-accounts/default/identity')" 
+
+Note: make sure you've updated your role name in the command above.
+
+You should now be able to authenticate
+
+    export VAULT_ADDR=https://<VAULT_API>
+    vault write auth/gcp/login role="<GCP_ROLE_NAME>" jwt="$JWT_TOKEN"
+
+or thru the API
+
+     curl \
+       --request POST \
+       --data "{\"role\":\"<GPP_ROLE_NAME>\", \"jwt\": \"$JWT_TOKEN\"}" \
+       https://<VAULT_API>/v1/auth/gcp/login | jq
 
 ## Troubleshooting
 

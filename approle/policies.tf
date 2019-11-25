@@ -66,5 +66,20 @@ path "${var.kv_path}/*" {
 path "${var.ssh_path}/*" {
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
 }
+
+# Authorize gcp auth configuration
+path "sys/auth/gcp" {
+   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
+
+# Authorize gcp auth configuration
+path "auth/gcp/config" {
+   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
+
+# Authorize gcp role management within namespace
+path "auth/gcp/role/*" {
+   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
 EOF
 }

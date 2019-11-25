@@ -1,0 +1,43 @@
+{
+  "min_packer_version": "1.3.1",
+  "variables": {
+    "project_id": "<GCP_PROJECT>",
+    "zone": "<GCP_ZONE>",
+    "vault_bin_path": "./files/vault",
+    "vault_config_path": "./files/config.hcl",
+    "ca_public_key_path": "./files/ca.crt"
+  },
+  "builders": [{
+    "type": "googlecompute",
+    "image_name": "ubuntu-vault-{{isotime \"2006-01-02-030405\"}}",
+    "image_family": "vault",
+    "project_id": "{{user `project_id`}}",
+    "source_image_family": "ubuntu-1804-lts",
+    "zone": "{{user `zone`}}",
+    "ssh_username": "ubuntu"
+  }],
+  "provisioners": [{
+    "type": "file",
+    "source": "{{user `ca_public_key_path`}}",
+    "destination": "/tmp/ca.crt"
+  },{
+    "type": "file",
+    "source": "{{user `vault_bin_path`}}",
+    "destination": "/tmp/vault"
+  },{
+    "type": "file",
+    "source": "{{user `vault_config_path`}}",
+    "destination": "/tmp/config.hcl"
+  },{
+    "type": "shell",
+    "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'" ,
+    "inline": [
+      "sudo mkdir -p /etc/vault/tls",
+      "sudo mv /tmp/ca.crt /etc/vault/tls/",
+      "sudo mv /tmp/config.hcl /etc/vault",
+      "sudo mv /tmp/vault /usr/local/bin",
+      "sudo chmod u+x /usr/local/bin/vault",
+      "sudo /bin/sh -c 'echo \"TrustedUserCAKeys /etc/ssh/trusted-user-ca-keys.pem\" >> /etc/ssh/sshd_config'"
+    ]
+  }]
+}

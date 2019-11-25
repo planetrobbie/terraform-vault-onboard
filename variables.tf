@@ -55,7 +55,6 @@ variable "max_lease_ttl_seconds" {
 }
 
 # SSH Secret Engine
-
 variable "ssh_ca_allowed_users" {
   description = "comma-separated list of usernames that are to be allowed for CA based Auth"
   default = "sebastien"
@@ -65,3 +64,38 @@ variable "ssh_otp_allowed_users" {
   description = "comma-separated list of usernames that are to be allowed for OTP based Auth"
   default = "sebastien"
 }
+
+# GCP Secret Engine
+variable "gcp_credentials" {
+  description = "Credentials for GCP auth backend"
+}
+
+variable "gcp_role_name" {
+  description = "Role name of GCP auth backend"
+}
+
+variable "gcp_bound_zones" {
+  description = "List of zones that a GCE instance must belong to"
+  type = list(string)
+}
+
+variable "gcp_bound_projects" {
+  description = "An array of GCP project IDs to restrict authentication to them"
+  type = list(string)
+}
+
+variable "gcp_token_policies" {
+  description = "List of policies to encode onto generated tokens"
+  type = list(string)
+}
+
+variable "gcp_token_ttl" {
+  description = "Incremental lifetime for generated tokens in number of seconds"
+  type = number
+}
+
+variable "gcp_token_max_ttl" {
+  description = "Maximum lifetime for generated tokens in number of seconds"
+  type = number
+}
+

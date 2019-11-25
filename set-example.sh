@@ -43,3 +43,15 @@ export TF_VAR_kubernetes_host=""
 export VAULT_SA_NAME=$(kubectl get sa vault-auth -o jsonpath="{.secrets[*]['name']}")
 export TF_VAR_token_reviewer_jwt=$(kubectl get secret $VAULT_SA_NAME -o jsonpath="{.data.token}" | base64 --decode; echo)
 export TF_VAR_kubernetes_ca_cert=$(kubectl get secret $VAULT_SA_NAME -o jsonpath="{.data['ca\.crt']}" | base64 --decode; echo)
+
+# GCP Auth backend
+export TF_VAR_gcp_credentials=$(cat <<EOF
+<GOOGLE CLOUD CREDENTIALS HERE>
+EOF
+)
+export TF_VAR_gcp_role_name="gce" 
+export TF_VAR_gcp_bound_zones='["<YOUR_GCP_ZONE>"]'
+export TF_VAR_gcp_bound_projects='["<YOUR_GCP_PROJECT>"]'
+export TF_VAR_gcp_token_policies='["terraform"]'
+export TF_VAR_gcp_token_ttl=1800
+export TF_VAR_gcp_token_max_ttl=86400

@@ -24,3 +24,14 @@ module "ssh" {
   ssh_ca_allowed_users = var.ssh_ca_allowed_users
   ssh_otp_allowed_users = var.ssh_otp_allowed_users
 }
+
+module "gcp" {
+  source = "./gcp"
+
+  gcp_credentials = var.gcp_credentials
+  bound_zones     = var.bound_zones
+  bound_projects  = var.bound_projects
+  token_policies  = var.token_policies
+  token_ttl       = var.token_ttl
+  token_max_ttl   = var.token_max_ttl
+}

@@ -1,0 +1,5 @@
+region = "<GCP_REGION>"
+region_zone = "<GCP_ZONE>"
+project_name = "<GCP_PROJECT>"
+image = "<PACKER_BUILT_IMAGE>"
+vault_namespace = "<VAULT_NAMESPACE>"
