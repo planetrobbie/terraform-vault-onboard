@@ -6,15 +6,15 @@ By leveraging the code in this repository you can automated the configuration of
 
 * Authenticate application running in Kubernetes Pods
 * Authenticate instances running on Google Cloud Platform
-* Open SSH access to instances using signed SSH public keys
+* Open SSH access to instances using Vault SSH secret engine
 * Automate Instance onboarding to Vault SSH Secret Engine.
  
-To support these uses cases this code also
+To support these use cases this code also
 
-* create a Vault namespace [require HashiCorp Vault Enterprise]
-* create an AppRole auth backend for Terraform Vault Provider
-* configure Vault policies
-* mount a K/V Secret Engine
+* Create a Vault namespace [require HashiCorp Vault Enterprise]
+* Create an AppRole auth backend for Terraform Vault Provider
+* Configure Vault policies
+* Mount a K/V Secret Engine
 
 And more to come !!! stay tuned ;)
 
