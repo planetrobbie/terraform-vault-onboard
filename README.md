@@ -6,8 +6,8 @@ By leveraging the code in this repository you can automated the configuration of
 
 * Authenticate application running in Kubernetes Pods
 * Authenticate instances running on Google Cloud Platform
-* Open SSH access to instances using Vault SSH secret engine
-* Automate Instance onboarding to Vault SSH Secret Engine.
+* OpenSSH access to instances using Vault SSH secret engine
+* Automate Instance onboarding to Vault SSH Secret Engine
  
 To support these use cases this code also
 
