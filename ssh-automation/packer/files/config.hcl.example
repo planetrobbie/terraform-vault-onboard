@@ -2,7 +2,7 @@ exit_after_auth = true
 pid_file = "/home/ubuntu/pidfile"
 
 vault {
-  address = "https://vault.prod.yet.org"
+  address = "https://<VAULT_API>"
 }
 
 auto_auth {

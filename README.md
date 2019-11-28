@@ -30,7 +30,7 @@ And more to come !!! stay tuned ;)
 
 First of all you need to export the following environment variables in your shell environment. But if you're using Terraform Cloud or Enterprise you can easily do so from the UI, just remove `TF_VAR_`. When setting them up in Terraform Cloud or Enterprise, just keep the variable name itself.
 
-So if you're using Terraform Open Source, just export values for the following environment variables, we've kept some values, feel free to change any of them.
+So if you're using Terraform Open Source, just export values for the following environment variables, we've kept some default values, feel free to change any of them.
 
 ### Configure Vault variables
 
@@ -237,6 +237,11 @@ If everything looks good in your signed certificate but you still can connect in
 
     tail -f /var/log/auth.log
 
+You can also get more details by looking at the ssh daemon log
+
+    sudo journalctl -fx -u ssh
+
+We use `-f` to follow logs and `-x` to get more information.
 
 ### Kubernetes
 

@@ -1,14 +1,40 @@
 # VM Instance SSH CA automation
 
-To build an image containing all the required moving parts for it to automatically grab the SSH CA at boot time from Vault leveraging Google Cloud Auth backend run in this directory
+This Project will allow you to build an image containing all the required moving parts to automate SSH CA onboarding.
 
-    packer build -debug vault-image.json
+Once you boot a compute instance, it will automatically grab the SSH CA from Vault after an auto_auth provided by Google Cloud Auth backend.
 
-If you don't want to push the Vault binary from your labtop due to bandwidth constraints, run instead to tell the VM to deal with the download itself
+All of that by achieved by the magical vault agent 1.3.0 which integrates Consul-template features to generate configuration files automagically from Vault API.
 
-    packer build -debug vault-image-pull.json
+To jumpstart this process, first download the Vault binary in `ssh-automation/packer/files/`
 
-The built image will have the following files ready to be used by a following up cloud-init based provisionning
+    curl https://releases.hashicorp.com/vault/1.3.0/vault_1.3.0_linux_amd64.zip --output ssh-automation/packer/files/
+
+Also install your Vault `ca.crt` into the same `ssh-automation/packer/files/` directory
+
+Copy `config.hcl.example` and update it with your VAULT_API URL
+
+    cp ssh-automation/packer/files/config.hcl.example ssh-automation/packer/files/config.hcl
+    vi ssh-automation/packer/files/config.hcl
+
+Copy and customise the packer build of your choice. If you want to push the binary to the image yourself 
+
+    cp ssh-automation/packer/vault-image.json.example ssh-automation/packer/vault-image.json
+
+If you prefer the instance to do the download itself
+
+    cp ssh-automation/packer/vault-image-pull.json.example ssh-automation/packer/vault-image.json
+
+Review what you have to update
+
+    vi ssh-automation/packer/vault-image.json
+
+Once you've updated the corresponding `vault-image.json` file with your GCP project and zone, you can build your image
+
+    cd ssh-automation/packer/
+    packer build vault-image.json
+
+The built image will have the following files ready to be consumed by your vault agent
 
 * `/etc/vault/tls/ca.crt` Vault TLS Public Certificate
 * `/etc/vault/config.hcl` Vault Agent configuration to grab the SSH CA file
@@ -20,13 +46,14 @@ Packer have also added the following line to `/etc/ssh/sshd_config`
  
 # Provision a VM
 
-Now that you have an image ready, you can switch over to the terraform directory to provision an instance from it.
+Now that you have an image ready, you can switch over to the provided terraform directory to provision an instance from it.
 
     cd ../terraform
 
 Configure all the required variables from the example file
 
     cp terraform.tfvars.example terraform.tfvars
+    vi terraform.tfvars
 
 Make sure you updated the image variable with the image ID from the Packer build.
 
