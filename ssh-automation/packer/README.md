@@ -44,7 +44,7 @@ Packer have also added the following line to `/etc/ssh/sshd_config`
 
     TrustedUserCAKeys /etc/ssh/trusted-user-ca-keys.pem
  
-# Provision a VM
+# Provision an Instance
 
 Now that you have an image ready, you can switch over to the provided terraform directory to provision an instance from it.
 
@@ -61,11 +61,38 @@ Once everything is ready, launch the privisionning.
 
     terraform apply -auto-approve
 
-You should now be able to sign your ssh public key and connect to this instance
+# Test
+
+You should now be able to sign your ssh public key and connect to this instance. You can do all of that in a single step like this
+
+    vault ssh -role <SSH_ROLE_NAME> -mode ca <USER>@<IP_FROM_TERRAFORM_OUTPUT> -namespace='<VAULT_NAMESPACE>'
+
+Or step by step
 
     export VAULT_ADDR=https://<VAULT_API>
     export VAULT_NAMESPACE="<VAULT_NAMESPACE>"
     vault write -field=signed_key ssh/sign/<SSH_ROLE_NAME> public_key=@$HOME/.ssh/id_rsa.pub valid_principals=<USER> > ~/.ssh/id_rsa-cert.pub
     ssh <USER>@<IP_FROM_TERRAFORM_OUTPUT>
 
-Congratulation, you now have an environment to automatically onboard your instances to your SSH Secret Engine living in your Vault namespace.
+But if you don't have vault binary on your machine, you can also sign your key directly from Vault API
+
+    export TOKEN=`cat ~/.vault-token`; curl -k -sS -X POST -H "X-Vault-Token: $TOKEN" https://<VAULT_API>/v1/ssh/sign/<SSH_ROLE_NAME> --data '{"public_key": "<SSH_PUB_KEY>"}' | jq '.data.signed_key' | sed 's/"//g' | sed 's/\\n//g'> ~/.ssh/id_rsa-cert.pub
+    ssh <USER>@<IP_FROM_TERRAFORM_OUTPUT>
+
+Once you are in the VM, you could check what both Packer and Terraform introduced to automate the process
+
+Vault Agent configuration file
+
+    cat /etc/vault/config.hcl
+
+OpenSSH configuration which trusted Vault CA (last line)
+
+    cat /etc/ssh/sshd_config
+
+You can run Vault Agent manually to see how it works
+
+    sudo vault agent -config=/etc/vault/config.hcl
+
+You need to run it as root to allow it to write priviledged files like the trustedCA into `/etc/ssh/trusted-user-ca-keys.pem`
+
+Congratulation, you now have an environment to automatically onboard your instances to your SSH Secret Engine within your Vault namespace.
