@@ -29,9 +29,10 @@ module "gcp" {
   source = "./gcp"
 
   gcp_credentials = var.gcp_credentials
-  bound_zones     = var.bound_zones
-  bound_projects  = var.bound_projects
-  token_policies  = var.token_policies
-  token_ttl       = var.token_ttl
-  token_max_ttl   = var.token_max_ttl
+  gcp_role_name   = var.gcp_role_name
+  gcp_bound_zones     = var.gcp_bound_zones
+  gcp_bound_projects  = var.gcp_bound_projects
+  gcp_token_policies  = var.gcp_token_policies
+  gcp_token_ttl       = var.gcp_token_ttl
+  gcp_token_max_ttl   = var.gcp_token_max_ttl
 }

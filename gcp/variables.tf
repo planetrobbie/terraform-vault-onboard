@@ -27,7 +27,7 @@ variable "gcp_token_ttl" {
   type = number
 }
 
-variable "token_max_ttl" {
+variable "gcp_token_max_ttl" {
   description = "Maximum lifetime for generated tokens in number of seconds"
   type = number
 }
