@@ -55,3 +55,7 @@ export TF_VAR_gcp_bound_projects='["<YOUR_GCP_PROJECT>"]'
 export TF_VAR_gcp_token_policies='["terraform"]'
 export TF_VAR_gcp_token_ttl=1800
 export TF_VAR_gcp_token_max_ttl=86400
+
+# SSH Secret Engine
+export TF_VAR_ssh_ca_allowed_users="ubuntu"
+export TF_VAR_ssh_otp_allowed_users="ubuntu"
