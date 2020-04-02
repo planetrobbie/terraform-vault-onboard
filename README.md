@@ -189,7 +189,7 @@ in the corresponding Kubernetes namespace and run inside it
 
     apk update; apk add curl jq
     JWT=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
-    curl --request POST \
+    curl -k --request POST \
          --header "X-Vault-Namespace: <YOURNAMESPACE>" \
          --data '{"jwt": "'"$JWT"'", "role": "<YOURROLE>"}' \
         $VAULT_ADDR/v1/auth/k8s/login | jq
