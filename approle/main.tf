@@ -9,8 +9,10 @@ resource "vault_auth_backend" "approle" {
   type = "approle"
   path = var.approle_path
   description = "AppRole managed by Terraform"
-  default_lease_ttl_seconds = var.default_lease_ttl_seconds
-  max_lease_ttl_seconds = var.max_lease_ttl_seconds
+  tune {
+    default_lease_ttl = var.default_lease_ttl_seconds
+    max_lease_ttl = var.max_lease_ttl_seconds
+  }
 }
 
 resource "vault_approle_auth_backend_role" "terraform" {
