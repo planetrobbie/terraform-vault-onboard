@@ -170,6 +170,7 @@ Before you can run the overall provisionning within the created namespace you ne
 You're now ready for the real deal. Go back to the root of this project and run terraform
 
     cd ..
+    terraform init
     terraform apply
 
 Everything should now be ready for applications to consume this namespace secrets.
