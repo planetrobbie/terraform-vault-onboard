@@ -28,12 +28,12 @@ variable "kv_path" {
 
 variable "default_lease_ttl_seconds" {
   description = "Default duration of lease validity"
-  default = 3600
+  default = "3600s"
 }
 
 variable "max_lease_ttl_seconds" {
   description = "Maximum duration of lease validity"
-  default = 10800
+  default = "10800s"
 }
 
 variable "ssh_path" {
