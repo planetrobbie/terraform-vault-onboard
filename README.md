@@ -39,7 +39,7 @@ You need to have administrative privileges on your Vault cluster which would all
     export VAULT_ADDR="https://VAULT_API_ENDPOINT"
     export VAULT_TOKEN="<VAULT_TOKEN>"
 
-You'll find all the remaining environment variables gathered into `set-example.sh`, edit this file to customize it to your wishes.
+You'll find all the remaining environment variables gathered into `set-example.sh`, edit this file to customize it to your wishes. If you comment out some of them, if you don't want the corresponding use cases, don't forget to comment out the matching Terraform code. I'll implement conditional modules as soon as it will become available in Terraform 0.13.
 
 Namespace where your project onboarding will take place
     
