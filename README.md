@@ -129,7 +129,11 @@ We want to restrict Terraform to a namespace to limit the blast radius. So First
     terraform init
     terraform apply
 
-If that doesn't work, it's simply because you haven't exported `VAULT_ADDR` and `VAULT_TOKEN` environement variable to allow our Terraform Vault provider to authenticate.
+If that doesn't work, it's simply because you haven't exported `VAULT_ADDR` and `VAULT_TOKEN` environment variable to allow our Terraform Vault provider to authenticate.
+
+If it fails at the init step, you may not have internet access, in such a case you have to install the Terraform Vault provider manually in ``, it's available for all supported platforms below
+
+    https://releases.hashicorp.com/terraform-provider-vault/2.9.0/
 
 ## Enable AppRole Auth Backend
 
