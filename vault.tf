@@ -3,9 +3,9 @@ data "terraform_remote_state" "approle" {
 
   config = {
     organization = var.approle_org_name
+    address      = var.tfe_endpoint
     workspaces = {
-      address = var.tfe_endpoint
-      name    = var.approle_workspace_name
+      name = var.approle_workspace_name
     }
   }
 }
