@@ -1,9 +1,10 @@
+
 data "terraform_remote_state" "approle" {
   backend = "remote"
 
   config = {
     organization = var.approle_org_name
-    address      = var.tfe_endpoint
+    hostname     = var.tfe_endpoint
     workspaces = {
       name = var.approle_workspace_name
     }
