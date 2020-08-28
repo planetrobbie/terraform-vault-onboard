@@ -1,21 +1,25 @@
 # Module off/on
 variable "module_gcp" {
   description = "should we enable gcp module"
+  type        = number
   default     = 0
 }
 
 variable "module_k8s" {
   description = "should we enable k8s module"
+  type        = number
   default     = 0
 }
 
 variable "module_kv" {
   description = "should we enable kv module"
+  type        = number
   default     = 0
 }
 
 variable "module_ssh" {
   description = "should we enable ssh module"
+  type        = number
   default     = 0
 }
 
@@ -90,7 +94,7 @@ variable "secret_id" {}
 
 variable "app_role_mount_point" {
   description = "Mount point of AppRole secret engine"
-  default     = "app"
+  default     = "approle"
 }
 
 variable "default_lease_ttl_seconds" {
