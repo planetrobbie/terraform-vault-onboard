@@ -2,10 +2,10 @@ data "terraform_remote_state" "approle" {
   backend = "remote"
 
   config = {
-    organization = var.approle_org_name
-    hostname     = var.tfe_endpoint
+    organization = "yet"
+    hostname     = "https://replicated.yet.org"
     workspaces = {
-      name = var.approle_workspace_name
+      name = "api-vault-approle"
     }
   }
 }
