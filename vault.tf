@@ -1,3 +1,15 @@
+data "terraform_remote_state" "approle-o" {
+  backend = "remote"
+
+  config = {
+    organization = "yet"
+    hostname     = "https://replicated.yet.org"
+    workspaces = {
+      name = "api-vault-approle"
+    }
+  }
+}
+
 provider "vault" {
   # $VAULT_ADDR should be configured with the endpoint where to reach Vault API.
   # Or uncomment and update following line
@@ -9,20 +21,8 @@ provider "vault" {
   auth_login {
     path = "${var.namespace}/auth/${var.app_role_mount_point}/login"
     parameters = {
-      role_id   = data.terraform_remote_state.approle.outputs.role_id
-      secret_id = data.terraform_remote_state.approle.outputs.secret_id
-    }
-  }
-}
-
-data "terraform_remote_state" "approle" {
-  backend = "remote"
-
-  config = {
-    organization = "yet"
-    hostname     = "https://replicated.yet.org"
-    workspaces = {
-      name = "api-vault-approle"
+      role_id   = data.terraform_remote_state.approle-o.outputs.role_id
+      secret_id = data.terraform_remote_state.approle-o.outputs.secret_id
     }
   }
 }
