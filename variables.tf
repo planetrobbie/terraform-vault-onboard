@@ -1,22 +1,22 @@
 # Module off/on
 variable "module_gcp" {
   description = "should we enable gcp module"
-  default     = false
+  default     = 0
 }
 
 variable "module_k8s" {
   description = "should we enable k8s module"
-  default     = false
+  default     = 0
 }
 
 variable "module_kv" {
   description = "should we enable kv module"
-  default     = false
+  default     = 0
 }
 
 variable "module_ssh" {
   description = "should we enable ssh module"
-  default     = false
+  default     = 0
 }
 
 # Namespace where to onboard our Application
