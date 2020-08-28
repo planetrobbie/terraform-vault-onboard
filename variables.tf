@@ -1,3 +1,24 @@
+# Module off/on
+variable "module_gcp" {
+  description = "should we enable gcp module"
+  default     = false
+}
+
+variable "module_k8s" {
+  description = "should we enable k8s module"
+  default     = false
+}
+
+variable "module_kv" {
+  description = "should we enable kv module"
+  default     = false
+}
+
+variable "module_ssh" {
+  description = "should we enable ssh module"
+  default     = false
+}
+
 # Namespace where to onboard our Application
 variable "namespace" {
   description = "namespace where all work will happen"
@@ -10,12 +31,12 @@ variable "kubernetes_host" {
 
 variable "kubernetes_namespace" {
   description = "Kubernetes namespace"
-  default = "default"
+  default     = "default"
 }
 
 variable "kubernetes_sa" {
   description = "Kubernetes service account"
-  default = "default"
+  default     = "default"
 }
 
 variable "kubernetes_ca_cert" {
@@ -41,28 +62,28 @@ variable "secret_id" {}
 
 variable "app_role_mount_point" {
   description = "Mount point of AppRole secret engine"
-  default = "app"
+  default     = "app"
 }
 
 variable "default_lease_ttl_seconds" {
   description = "Default duration of lease validity"
-  default = 3600
+  default     = 3600
 }
 
 variable "max_lease_ttl_seconds" {
   description = "Maximum duration of lease validity"
-  default = 10800
+  default     = 10800
 }
 
 # SSH Secret Engine
 variable "ssh_ca_allowed_users" {
   description = "comma-separated list of usernames that are to be allowed for CA based Auth"
-  default = "sebastien"
+  default     = "sebastien"
 }
 
 variable "ssh_otp_allowed_users" {
   description = "comma-separated list of usernames that are to be allowed for OTP based Auth"
-  default = "sebastien"
+  default     = "sebastien"
 }
 
 # GCP Secret Engine
@@ -76,26 +97,26 @@ variable "gcp_role_name" {
 
 variable "gcp_bound_zones" {
   description = "List of zones that a GCE instance must belong to"
-  type = list(string)
+  type        = list(string)
 }
 
 variable "gcp_bound_projects" {
   description = "An array of GCP project IDs to restrict authentication to them"
-  type = list(string)
+  type        = list(string)
 }
 
 variable "gcp_token_policies" {
   description = "List of policies to encode onto generated tokens"
-  type = list(string)
+  type        = list(string)
 }
 
 variable "gcp_token_ttl" {
   description = "Incremental lifetime for generated tokens in number of seconds"
-  type = number
+  type        = number
 }
 
 variable "gcp_token_max_ttl" {
   description = "Maximum lifetime for generated tokens in number of seconds"
-  type = number
+  type        = number
 }
 
