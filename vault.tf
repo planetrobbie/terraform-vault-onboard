@@ -2,6 +2,7 @@ data "terraform_remote_state" "approle" {
   backend = "remote"
 
   config = {
+    address      = "https://replicated.yet.org"
     organization = "yet"
 
     workspaces = {
