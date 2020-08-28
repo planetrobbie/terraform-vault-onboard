@@ -105,8 +105,8 @@ EOT
 }
 
 # Vault Provider Configuration
-variable "role_id" {}
-variable "secret_id" {}
+#variable "role_id" {}
+#variable "secret_id" {}
 
 variable "app_role_mount_point" {
   description = "Mount point of AppRole secret engine"
