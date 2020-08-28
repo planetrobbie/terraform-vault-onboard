@@ -1,7 +1,7 @@
 # Remote Approle state configuration
 variable "tfe_endpoint" {
-  description = "TFE API Endpoint"
-  default     = "https://replicated.yet.org"
+  description = "TFE API Endpoint without https://"
+  default     = "replicated.yet.org"
 }
 
 variable "approle_org_name" {
