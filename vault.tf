@@ -1,9 +1,9 @@
-data "terraform_remote_state" "approle-o" {
+data "terraform_remote_state" "approle" {
   backend = "remote"
 
   config = {
     organization = "yet"
-    hostname     = "https://replicated.yet.org"
+
     workspaces = {
       name = "api-vault-approle"
     }
@@ -21,8 +21,8 @@ provider "vault" {
   auth_login {
     path = "${var.namespace}/auth/${var.app_role_mount_point}/login"
     parameters = {
-      role_id   = data.terraform_remote_state.approle-o.outputs.role_id
-      secret_id = data.terraform_remote_state.approle-o.outputs.secret_id
+      role_id   = data.terraform_remote_state.approle.outputs.role_id
+      secret_id = data.terraform_remote_state.approle.outputs.secret_id
     }
   }
 }
