@@ -1,3 +1,19 @@
+# Remote Approle state configuration
+variable "tfe_endpoint" {
+  description = "TFE API Endpoint"
+  default     = "https://replicated.yet.org"
+}
+
+variable "approle_org_name" {
+  description = "TFE Org where to find approle workspace"
+  default     = "yet"
+}
+
+variable "approle_workspace_name" {
+  description = "TFE Workspace Approle name"
+  default     = "api-vault-approle"
+}
+
 # Module off/on
 variable "module_gcp" {
   description = "should we enable gcp module"
