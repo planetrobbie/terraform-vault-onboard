@@ -22,11 +22,13 @@ variable "module_ssh" {
 # Namespace where to onboard our Application
 variable "namespace" {
   description = "namespace where all work will happen"
+  default     = "research"
 }
 
 # Kubernetes
 variable "kubernetes_host" {
   description = "Kubernetes API endpoint"
+  default     = ""
 }
 
 variable "kubernetes_namespace" {
@@ -41,19 +43,45 @@ variable "kubernetes_sa" {
 
 variable "kubernetes_ca_cert" {
   description = "Kubernetes CA"
+  default     = ""
 }
 
 variable "token_reviewer_jwt" {
   description = "Kubernetes Auth"
+  default     = ""
 }
 
 # Kubernetes Policy
 variable "policy_name" {
   description = "Name of the policy to be created"
+  default     = "k8s"
 }
 
 variable "policy_code" {
   description = "Content of the policy to be created"
+  default     = <<EOT
+path "kv/*" {
+  capabilities = ["create", "read", "update", "delete", "list"]
+}
+path "secret/data/apikey" {
+  capabilities = ["read","list"]
+}
+path "db/creds/dev" {
+  capabilities = ["read"]
+}
+path "pki_int/issue/*" {
+  capabilities = ["create", "update"]
+}
+path "sys/leases/renew" {
+  capabilities = ["create"]
+}
+path "sys/leases/revoke" {
+  capabilities = ["update"]
+}
+path "sys/renew/*" {
+  capabilities = ["update"]
+}
+EOT
 }
 
 # Vault Provider Configuration
@@ -89,34 +117,40 @@ variable "ssh_otp_allowed_users" {
 # GCP Secret Engine
 variable "gcp_credentials" {
   description = "Credentials for GCP auth backend"
+  default     = ""
 }
 
 variable "gcp_role_name" {
   description = "Role name of GCP auth backend"
+  default     = "gce"
 }
 
 variable "gcp_bound_zones" {
   description = "List of zones that a GCE instance must belong to"
   type        = list(string)
+  default     = ["europe-west1-c"]
 }
 
 variable "gcp_bound_projects" {
   description = "An array of GCP project IDs to restrict authentication to them"
   type        = list(string)
+  default     = ["my-gcp-project"]
 }
 
 variable "gcp_token_policies" {
   description = "List of policies to encode onto generated tokens"
   type        = list(string)
+  default     = ["terraform"]
 }
 
 variable "gcp_token_ttl" {
   description = "Incremental lifetime for generated tokens in number of seconds"
   type        = number
+  default     = 1800
 }
 
 variable "gcp_token_max_ttl" {
   description = "Maximum lifetime for generated tokens in number of seconds"
   type        = number
+  default     = 86400
 }
-
