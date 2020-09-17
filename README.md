@@ -20,6 +20,12 @@ To achieve that goal we will automate the following operations
 
 This repository is for demonstration purpose but could be extended to support production workflows. We will be using [Postman](https://www.postman.com/) to automate the overall workflow, Postman will cascade all the Terraform Enterprise (TFE) or Cloud (TFC) API calls but any other orchestrator could also be leveraged to reach the same goal.
 
+## Disclaimer
+
+Interacting with Vault from Terraform causes any secrets that you read and write to be persisted in both Terraform's state file and in any generated plan files. For any Terraform module that reads or writes Vault secrets, these files should be treated as sensitive and protected accordingly.
+
+As of today both Terraform Cloud and Enterprise store the state file encrypted and restrict who can get access to the cleartext version. But that may not be enough, in such a case we advice to only drive the structure automation (namespacing, mounting secret engines, ...) using this workflow, the secret injection can be done out of band.
+
 ## Requirements:
 
 * [Terraform 0.13.1+](https://www.terraform.io/)
