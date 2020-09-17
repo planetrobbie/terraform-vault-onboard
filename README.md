@@ -20,6 +20,8 @@ To achieve that goal we will automate the following operations
 
 This repository is for demonstration purpose but could be extended to support production workflows. We will be using [Postman](https://www.postman.com/) to automate the overall workflow, Postman will cascade all the Terraform Enterprise (TFE) or Cloud (TFC) API calls but any other orchestrator could also be leveraged to reach the same goal.
 
+The previous branch [terraform-oss](https://github.com/planetrobbie/terraform-vault-onboard/tree/terraform-oss) is still available if you just want to use terraform command line interface instead of Terraform Enterprise or Cloud.
+
 ## Disclaimer
 
 Interacting with Vault from Terraform causes any secrets that you read and write to be persisted in both Terraform's state file and in any generated plan files. For any Terraform module that reads or writes Vault secrets, these files should be treated as sensitive and protected accordingly.
