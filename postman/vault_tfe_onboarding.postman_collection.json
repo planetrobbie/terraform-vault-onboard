@@ -886,7 +886,7 @@
 		{
 			"id": "169955da-f9f3-4b8a-9812-005536488bb0",
 			"key": "vcs_oauth-token-id",
-			"value": "VCS_OAUUTH_TOKEN_ID",
+			"value": "VCS_OAUTH_TOKEN_ID",
 			"type": "string"
 		}
 	]
