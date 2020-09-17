@@ -1,8 +1,6 @@
 ## Introduction
 
-Project onboarding automation on HashiCorp [Vault Enterprise](https://www.hashicorp.com/products/vault) using [Terraform Vault provider](https://registry.terraform.io/providers/hashicorp/vault/latest/docs) and [Terraform Enterprise](https://www.hashicorp.com/products/terraform).
-
-By leveraging the code in this repository you can automated the configuration of your HashiCorp Vault Cluster to enable the following use cases:
+This project will give you all the bits and pieces to automate the following [Vault Enterprise](https://www.hashicorp.com/products/vault) use cases using [Terraform Enterprise](https://www.hashicorp.com/products/terraform) or [Terraform Cloud](https://www.terraform.io/docs/cloud/overview.html) [API](https://www.terraform.io/docs/cloud/api/index.html):
 
 * Store static secrets encrypted in a K/V store
 * Authenticate application running in Kubernetes Pods
@@ -10,19 +8,22 @@ By leveraging the code in this repository you can automated the configuration of
 * OpenSSH access to instances using Vault SSH secret engine
 * Automate Instance onboarding to Vault SSH Secret Engine
  
-To support these use cases this code also
+This is possible by leveraging HashiCorp [Terraform Vault provider](https://registry.terraform.io/providers/hashicorp/vault/latest/docs). 
 
-* Create a Vault namespace [require HashiCorp Vault Enterprise]
-* Create an AppRole auth backend for Terraform Vault Provider
-* Configure Vault policies
-* Mount a K/V Secret Engine
+To achieve that goal we will automate the following operations 
 
-And more to come !!! stay tuned ;)
+* Creation of a Vault namespace [require HashiCorp Vault Enterprise]
+* Creation of an AppRole auth backend for Terraform Vault Provider
+* Configuration of Vault policies
+* Mounting a K/V Secret Engine
+* And more to come !!! stay tuned ;)
+
+This repository is for demonstration purpose but could be extended to support production workflows. We will be using [Postman](https://www.postman.com/) to automate the overall workflow, Postman will cascade all the Terraform Enterprise (TFE) or Cloud (TFC) API calls but any other orchestrator could also be leveraged to reach the same goal.
 
 ## Requirements:
 
 * [Terraform 0.13.1+](https://www.terraform.io/)
-* [Postman](https://www.postman.com/) or similar API Consumer tooling
+* [Postman](https://www.postman.com/)
 * [Terraform Vault provider](https://www.terraform.io/docs/providers/vault/index.html)
 * [Vault Enterprise](https://www.hashicorp.com/products/vault/enterprise)
 * [Terraform Cloud account](https://app.terraform.io/session) or [Terraform Enterprise](https://www.terraform.io/docs/enterprise/index.html)
