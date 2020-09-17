@@ -41,7 +41,7 @@ As of today both Terraform Cloud and Enterprise store the state file encrypted a
  
 ## Import Postman Collection
 
-First of all you need to import the Postman collections to Postman. You'll find the three of them below
+First of all you need to import the following three collections to Postman.
 
 - [Vault TFE Onboarding](https://github.com/planetrobbie/terraform-vault-onboard/blob/master/postman/vault_tfe_onboarding.postman_collection.json) - onboard everything from scratch
 - [Vault TFE Day 2](https://github.com/planetrobbie/terraform-vault-onboard/blob/master/postman/vault_tfe_day2.postman_collection.json) - example of how to add/remove secret engines from Vault namespace using latest count features from Terraform 0.13.
@@ -85,7 +85,7 @@ And then, plan/apply all of the above workspaces which will result in the creati
 
 The second collection you could use, *Vault TFE Day 2*, is leveraging the capability of terraform 0.13+ to optionally add a module based on a `count` parameter to demonstrate how an additional Vault Secret Engine can be added to an existing namespace.
 
-To demonstrate that feature, you just have to grab the workspace identifier from TFE/TFC setting of the `{{project_name}}-vault-onboarding` workspace and update accordingly the Postman environment variable `id_ws_onboarding`
+To demonstrate that feature, you just have to grab the workspace identifier from TFE/TFC setting of the `{{project_name}}-vault-onboarding` workspace and update accordingly the Postman collection variable `id_ws_vault_onboarding`
 
 For example if you use Terraform Cloud, you just have to reach the following URL (replace your `ORG` and `project_name`  below)
 
