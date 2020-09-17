@@ -31,7 +31,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"data\": {\n\t\t\"type\":\"vars\",\n    \"attributes\": {\n      \"key\":\"module_ssh\",\n      \"value\":\"1\",\n      \"category\":\"terraform\",\n      \"hcl\":false,\n      \"sensitive\":false\n    },\n\t\t\"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"id\":\"{{id_ws_onboarding}}\",\n          \"type\":\"workspaces\"\n        }\n      }\n    }\n  }\n}"
+					"raw": "{\n  \"data\": {\n\t\t\"type\":\"vars\",\n    \"attributes\": {\n      \"key\":\"module_ssh\",\n      \"value\":\"1\",\n      \"category\":\"terraform\",\n      \"hcl\":false,\n      \"sensitive\":false\n    },\n\t\t\"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"id\":\"{{id_ws_vault_onboarding}}\",\n          \"type\":\"workspaces\"\n        }\n      }\n    }\n  }\n}"
 				},
 				"url": {
 					"raw": "{{tfe}}/vars",
