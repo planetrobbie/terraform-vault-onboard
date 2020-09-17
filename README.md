@@ -1,6 +1,10 @@
 # Introduction
 
-Project onboarding automation on HashiCorp Vault Enterprise using Terraform Vault provider.
+Project onboarding automation on HashiCorp Vault Enterprise using Terraform Vault provider and Terraform Open Source.
+
+If you are interested in going one step further and automate all of the below workflow leveraging a Terraform API, you should consider using Terraform Enterprise or Cloud, consult our `master` branch for all the details.
+
+# Use cases
 
 By leveraging the code in this repository you can automated the configuration of your HashiCorp Vault Cluster to enable the following use cases
 
