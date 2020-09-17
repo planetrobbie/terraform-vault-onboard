@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "aa35b221-2a6a-4ff5-9880-0d26f9af78a9",
-		"name": "HashiCorp Vault TFE day 2 published",
+		"_postman_id": "994195e0-3bb2-40bc-b510-1f911360b75e",
+		"name": "HashiCorp Vault TFE day 2 published copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -206,15 +206,21 @@
 	],
 	"variable": [
 		{
-			"id": "a29203ca-6fd2-4a41-afb8-d47b693e3a76",
+			"id": "4486ab20-dd92-4e18-8729-0a2ed88af7ef",
 			"key": "tfe",
 			"value": "https://TFE_API_URL/api/v2",
 			"type": "string"
 		},
 		{
-			"id": "f7557d69-d891-47fb-b7ac-7e8596059e4b",
+			"id": "12cea9e9-efb0-4f4c-9ed8-9d5829506fe0",
 			"key": "tfe_token",
 			"value": "TFE_TOKEN",
+			"type": "string"
+		},
+		{
+			"id": "b8c93335-d0b0-487d-902c-2503da85aef8",
+			"key": "id_ws_onboarding",
+			"value": "ID_WS_ONBOARDING",
 			"type": "string"
 		}
 	]
