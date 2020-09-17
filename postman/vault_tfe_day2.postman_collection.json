@@ -80,7 +80,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"is-destroy\": false,\n      \"message\": \"API driven run\"\n    },\n    \"type\":\"runs\",\n    \"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"type\": \"workspaces\",\n          \"id\": \"{{id_ws_onboarding}}\"\n        }\n      }\n    }\n  }\n}"
+					"raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"is-destroy\": false,\n      \"message\": \"API driven run\"\n    },\n    \"type\":\"runs\",\n    \"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"type\": \"workspaces\",\n          \"id\": \"{{id_ws_vault_onboarding}}\"\n        }\n      }\n    }\n  }\n}"
 				},
 				"url": {
 					"raw": "{{tfe}}/runs",
@@ -157,7 +157,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"is-destroy\": false,\n      \"message\": \"API driven run\"\n    },\n    \"type\":\"runs\",\n    \"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"type\": \"workspaces\",\n          \"id\": \"{{id_ws_onboarding}}\"\n        }\n      }\n    }\n  }\n}"
+					"raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"is-destroy\": false,\n      \"message\": \"API driven run\"\n    },\n    \"type\":\"runs\",\n    \"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"type\": \"workspaces\",\n          \"id\": \"{{id_ws_vault_onboarding}}\"\n        }\n      }\n    }\n  }\n}"
 				},
 				"url": {
 					"raw": "{{tfe}}/runs",
