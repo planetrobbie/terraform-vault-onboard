@@ -219,8 +219,8 @@
 		},
 		{
 			"id": "b8c93335-d0b0-487d-902c-2503da85aef8",
-			"key": "id_ws_onboarding",
-			"value": "ID_WS_ONBOARDING",
+			"key": "id_ws_vault_onboarding",
+			"value": "ID_WS_VAULT_ONBOARDING",
 			"type": "string"
 		}
 	]
