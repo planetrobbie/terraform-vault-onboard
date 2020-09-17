@@ -760,7 +760,7 @@
 				"header": [
 					{
 						"key": "X-Vault-Token",
-						"value": "XXX",
+						"value": "{{vault_token}}",
 						"type": "text"
 					}
 				],
