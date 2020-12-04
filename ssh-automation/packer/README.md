@@ -8,7 +8,8 @@ All of that by achieved by the magical vault agent 1.3.0 which integrates Consul
 
 To jumpstart this process, first download the Vault binary in `ssh-automation/packer/files/`
 
-    curl https://releases.hashicorp.com/vault/1.3.0/vault_1.3.0_linux_amd64.zip --output ssh-automation/packer/files/
+    wget https://releases.hashicorp.com/vault/1.6.0/vault_1.6.0_linux_amd64.zip
+    unzip vault_1.6.0_linux_amd64.zip
 
 Also install your Vault `ca.crt` into the same `ssh-automation/packer/files/` directory
 
