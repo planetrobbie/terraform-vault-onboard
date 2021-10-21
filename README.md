@@ -1,82 +1,133 @@
-# Introduction
+## Introduction
 
-Project onboarding automation on HashiCorp Vault Enterprise using Terraform Vault provider.
+This project will give you all the bits and pieces to automate the following [Vault Enterprise](https://www.hashicorp.com/products/vault) use cases using [Terraform Enterprise](https://www.hashicorp.com/products/terraform) or [Terraform Cloud](https://www.terraform.io/docs/cloud/overview.html) [API](https://www.terraform.io/docs/cloud/api/index.html):
 
-By leveraging the code in this repository you can automated the configuration of your HashiCorp Vault Cluster to enable the following use cases
-
+* Store static secrets encrypted in a K/V store
 * Authenticate application running in Kubernetes Pods
 * Authenticate instances running on Google Cloud Platform
 * OpenSSH access to instances using Vault SSH secret engine
 * Automate Instance onboarding to Vault SSH Secret Engine
  
-To support these use cases this code also
+This is possible by leveraging HashiCorp [Terraform Vault provider](https://registry.terraform.io/providers/hashicorp/vault/latest/docs). 
 
-* Create a Vault namespace [require HashiCorp Vault Enterprise]
-* Create an AppRole auth backend for Terraform Vault Provider
-* Configure Vault policies
-* Mount a K/V Secret Engine
+To achieve that goal we will automate the following operations 
 
-And more to come !!! stay tuned ;)
+* Creation of a Vault namespace [require HashiCorp Vault Enterprise]
+* Creation of an AppRole auth backend for Terraform Vault Provider
+* Configuration of Vault policies
+* Mounting a K/V Secret Engine
+* And more to come !!! stay tuned ;)
+
+This repository is for demonstration purpose but could be extended to support production workflows. We will be using [Postman](https://www.postman.com/) to automate the overall workflow, Postman will cascade all the Terraform Enterprise (TFE) or Cloud (TFC) API calls but any other orchestrator could also be leveraged to reach the same goal.
+
+The previous branch [terraform-oss](https://github.com/planetrobbie/terraform-vault-onboard/tree/terraform-oss) is still available if you just want to use terraform command line interface instead of Terraform Enterprise or Cloud.
+
+## Disclaimer
+
+Interacting with Vault from Terraform causes any secrets that you read and write to be persisted in both Terraform's state file and in any generated plan files. For any Terraform module that reads or writes Vault secrets, these files should be treated as sensitive and protected accordingly.
+
+As of today both Terraform Cloud and Enterprise store the state file encrypted and restrict who can get access to the cleartext version. But that may not be enough, in such a case we advice to only drive the structure automation (namespacing, mounting secret engines, ...) using this workflow, the secret injection can be done out of band.
 
 ## Requirements:
 
-* [Terraform 0.12](https://www.terraform.io/)
+* [Terraform 0.13.1+](https://www.terraform.io/)
+* [Postman](https://www.postman.com/)
 * [Terraform Vault provider](https://www.terraform.io/docs/providers/vault/index.html)
 * [Vault Enterprise](https://www.hashicorp.com/products/vault/enterprise)
+* [Terraform Cloud account](https://app.terraform.io/session) or [Terraform Enterprise](https://www.terraform.io/docs/enterprise/index.html)
+ 
+## Optional requirements:
+
 * [Kubernetes cluster](https://learn.hashicorp.com/vault/identity-access-management/vault-agent-k8s)
 * [Google Cloud Project](https://console.cloud.google.com)
  
-## Setup
+## Import Postman Collection
 
-First of all you need to export the following environment variables in your shell environment. But if you're using Terraform Cloud or Enterprise you can easily do so from the UI, just remove `TF_VAR_`. When setting them up in Terraform Cloud or Enterprise, just keep the variable name itself.
+First of all you need to import the following three collections to Postman.
 
-So if you're using Terraform Open Source, just export values for the following environment variables, we've kept some default values, feel free to change any of them.
+- [Vault TFE Onboarding](https://github.com/planetrobbie/terraform-vault-onboard/blob/master/postman/vault_tfe_onboarding.postman_collection.json) - onboard everything from scratch
+- [Vault TFE Day 2](https://github.com/planetrobbie/terraform-vault-onboard/blob/master/postman/vault_tfe_day2.postman_collection.json) - example of how to add/remove secret engines from Vault namespace using latest count features from Terraform 0.13.
+- [Vault TFE Clean](https://github.com/planetrobbie/terraform-vault-onboard/blob/master/postman/vault_tfe_clean.postman_collection.json) - Clean everything out
 
-### Configure Vault variables
+You can read Postman documentation for this step on their [documentation site](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/#importing-postman-data)
 
-You need to have administrative privileges on your Vault cluster which would allow you to create namespace and mount an AppRole auth backend and generate a Role ID and Secret ID for Terraform. To do that, you can export the following main environment variables.
+Once its done, update the following Collection variables from the different collections to suit to your needs:
 
-    export VAULT_ADDR="https://VAULT_API_ENDPOINT"
-    export VAULT_TOKEN="<VAULT_TOKEN>"
+- `project_name` replace PROJECT_NAME with the name of your project, it will be use to prepend all TFC/TFE workspace with that name, to avoid name collision.
 
-You'll find all the remaining environment variables gathered into `set-example.sh`, edit this file to customize it to your wishes.
+- `tfe` API endpoint, edit your collection Variables to replace `https://TFE_API_URL` with your TFC or TFE API endpoint. If you use TFC just put instead `https://app.terraform.io` leave the `api/v2` at the end.
 
-Namespace where your project onboarding will take place
-    
-    export TF_VAR_namespace
+- `tfe_token` which will give Postman the credentials to authenticate to Terraform Cloud (TFC) or Terraform Enterprise (TFE). Replace `TFE_TOKEN` with your token. To see how to generate such an API Token, consult our [Documentation](https://www.terraform.io/docs/cloud/users-teams-organizations/api-tokens.html)
 
-Where to mount AppRole auth backend
+- `tfe_org` TFE/TFC Organisation, replace `ORG` with your own organisation.
 
-    export TF_VAR_app_role_mount_point
+- `vault` replace `https://VAULT_API_URL` with your Vault API endpoint URL.
 
-AppRole role name
+- `vault_token` replace `VAULT_TOKEN` with a vault token with enough priviledges to create a namespace, create policies, mount and configure a [AppRole](https://www.vaultproject.io/docs/auth/approle) Auth backend.
 
-    export TF_VAR_role_name
+- `vault_namespace` replace `VAULT_NAMESPACE` with the [Vault namespace](https://www.vaultproject.io/docs/enterprise/namespaces) you want Postman to create.
 
-Path where to mount a Key/Value Vault Secret Engine
+- `vcs_identifier` replace `VCS_IDENTIFIER` by the location of the mirror of this repository, for example in my case it's `planetrobbie/terraform-vault-onboard`
 
-    export TF_VAR_kv_path
+- `vcs_oauth-token-id` replace `OAUTHID` with your version control system oAuthID, generated when you've connected your VCS with TFC/TFE, check our [docs](https://www.terraform.io/docs/cloud/vcs/github.html)
 
-Path where to mound a Kubernetes Auth Backend
+We've limited ourselves above to the main and mandatory variables. Below you'll find some more details regarding optional parameters that you can tweak if required.
 
-    export TF_VAR_k8s_path 
+## Initial onboarding
 
-### Configure Kubernetes variables
+Without further due you should now be able to run your Onboarding collection which will:
 
-    TF_VAR_kubernetes_host: Kubernetes API endpoint for example https://api.k8s.foobar.com
-    VAULT_SA_NAME: $(kubectl get sa vault-auth -o jsonpath="{.secrets[*]['name']}")
+- create `{{project_name}}-vault-namespace` TFC/TFE workspace and set variables
+- create `{{project_name}}-vault-approle` TFC/TFE workspace and set variables
+- create `{{project_name}}-vault-onboarding` TFC/TFE workspace and set variables
+
+And then, plan/apply all of the above workspaces which will result in the creation and configuration of the `{{vault_namespace}}`
+
+## Day 2 operations
+
+The second collection you could use, *Vault TFE Day 2*, is leveraging the capability of terraform 0.13+ to optionally add a module based on a `count` parameter to demonstrate how an additional Vault Secret Engine can be added to an existing namespace.
+
+To demonstrate that feature, you just have to grab the workspace identifier from TFE/TFC setting of the `{{project_name}}-vault-onboarding` workspace and update accordingly the Postman collection variable `id_ws_vault_onboarding`
+
+For example if you use Terraform Cloud, you just have to reach the following URL (replace your `ORG` and `project_name`  below)
+
+https://app.terraform.io/ORG/workspaces/{{project_name}}-vault-onboarding/settings/general
+
+You can then run the different API calls from this collection to see how a SSH secret engine can be added and then removed from Vault.
+
+## Cleaning out everything
+
+To end this demo, you can finally run the *Vault TFE Clean* Postman collection which will clean all of the workspaces and the vault namespace leaving nothing behind.
+
+Thanks for trying our Terraform Enterprise API based Vault Onboarding workflow. I hope it was useful.
+
+### Optional variables
+
+Below we details many more variables you could inject in your TFC/TFE Onboarding workspace to tune the way this repository works for you.
+
+`app_role_mount_point` Where to mount AppRole auth backend
+`role_name` AppRole role name
+`kv_path` Path where to mount a Key/Value Vault Secret Engine
+`k8s_path` Path where to mound a Kubernetes Auth Backend
+
+They all have a default value, so it's your call if you want to change them in any way shape or form.
+
+### Kubernetes related variables
+
+`kubernetes_host` Kubernetes API endpoint for example https://api.k8s.foobar.com
+`VAULT_SA_NAME` can be set with `$(kubectl get sa vault-auth -o jsonpath="{.secrets[*]['name']}")`
 
 Replace in the line above `vault-auth` by the service account name you're using for your Kubernetes Vault integration. See our [article](https://learn.hashicorp.com/vault/identity-access-management/vault-agent-k8s) for details.
 
 The next two variables allows Vault to verify the token that Kubernetes Pods sends.
 
-    TF_VAR_token_reviewer_jwt=$(kubectl get secret $VAULT_SA_NAME -o jsonpath="{.data.token}" | base64 --decode; echo)
-    TF_VAR_kubernetes_ca_cert=$(kubectl get secret $VAULT_SA_NAME -o jsonpath="{.data['ca\.crt']}" | base64 --decode; echo)
+`token_reviewer_jwt` can be set using `$(kubectl get secret $VAULT_SA_NAME -o jsonpath="{.data.token}" | base64 --decode; echo)`
+`kubernetes_ca_cert` can be set using `$(kubectl get secret $VAULT_SA_NAME -o jsonpath="{.data['ca\.crt']}" | base64 --decode; echo)`
 
-Now we can define a policy which will be associated with each authenticated Pods.
+policy which will be associated with each authenticated Pods.
 
-    TF_VAR_policy_name: Kubernetes Vault Policy name to be creation
-    TF_VAR_policy_code: Kubernetes Vault Policy JSON definition
+`policy_name` Kubernetes Vault Policy name to be creation
+`policy_code` Kubernetes Vault Policy JSON definition
 
 As a example you could have in the above variable something like
 
@@ -107,70 +158,7 @@ As a example you could have in the above variable something like
 
 ### Configure Google Auth Backend variables
 
-The most important variable is your Google credentials, just paste in your `set.sh` below
-
-    # GCP Auth backend
-    export TF_VAR_gcp_credentials=$(cat <<EOF
-    <GOOGLE CLOUD CREDENTIALS HERE>
-    EOF
-    )
-
-### Export Environment variables
-
-Make sure your kubernetes cluster is up and running and export all of the above environment variables.
-
-    source set.sh
-
-## Create your namespace
-
-We want to restrict Terraform to a namespace to limit the blast radius. So First things first, we initially need a namespace. Create it like that
-
-    cd namespace
-    terraform init
-    terraform apply
-
-If that doesn't work, it's simply because you haven't exported `VAULT_ADDR` and `VAULT_TOKEN` environement variable to allow our Terraform Vault provider to authenticate.
-
-## Enable AppRole Auth Backend
-
-Now that we have our namespace created above, we've configured Terraform Vault Provider to act on it, See the definition below in `approle/main.tf`
-
-    provider "vault" {
-        # $VAULT_ADDR should be configured with the endpoint where to reach Vault API.
-        # Or uncomment and update following line
-        # address = "https://vault.prod.yet.org"
-        namespace = var.namespace
-    }
-
-We'll now create an AppRole within that namespace for Terraform Vault provider to authenticate within it.
-
-You can first run the following commands to mount and create a secret. 
-
-    cd ../approle
-    terraform init
-    terraform apply
-
-End this section by grabbing the above output to update the following last two variables in your `set-example.sh`
-
-    export TF_VAR_role_id="<ROLE_ID>"
-    export TF_VAR_secret_id="<SECRET_ID>"
-
-Note: Secret ID above is a highly sensitive variable, make sure you don't keep the corresponding command line in your shell history.
-
-## Final provisioning.
-
-Before you can run the overall provisionning within the created namespace you need to source your set-example to inject the role_id and secret_id created in the previous step
-
-    source set-example.sh
-
-You're now ready for the real deal. Go back to the root of this project and run terraform
-
-    cd ..
-    terraform apply
-
-Everything should now be ready for applications to consume this namespace secrets.
-
-## Testing
+`gcp_credentials` your Google credentials which should be declared sensitive in TFC/TFE.
 
 ### Kubernetes Authentication
 
@@ -184,7 +172,7 @@ in the corresponding Kubernetes namespace and run inside it
 
     apk update; apk add curl jq
     JWT=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
-    curl --request POST \
+    curl -k --request POST \
          --header "X-Vault-Namespace: <YOURNAMESPACE>" \
          --data '{"jwt": "'"$JWT"'", "role": "<YOURROLE>"}' \
         $VAULT_ADDR/v1/auth/k8s/login | jq
@@ -230,8 +218,6 @@ or thru the API
 To troubleshoot SSH related issues, you can check the content of your signed key online pasting it into
 
     https://gravitational.com/resources/ssh-certificate-parser/
-
-Instead of getting back a token you may have a message saying
 
 If everything looks good in your signed certificate but you still can connect investigate further by looking at the logs of the target machine
 

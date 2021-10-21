@@ -1,0 +1,863 @@
+{
+	"info": {
+		"_postman_id": "2beefb78-5604-40f4-a503-d0dce7e83c51",
+		"name": "HashiCorp Vault TFE Cleaning published",
+		"description": "Cleanup test environment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Destroy workspace namespace",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{tfe}}/organizations/{{tfe_org}}/workspaces/{{project_name}}-vault-namespace",
+					"host": [
+						"{{tfe}}"
+					],
+					"path": [
+						"organizations",
+						"{{tfe_org}}",
+						"workspaces",
+						"{{project_name}}-vault-namespace"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Destroy acme-infra-prod-test workspace",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://mytfe.mydomain.com/api/v2/organizations/:organization_name/workspaces/:name",
+							"protocol": "https",
+							"host": [
+								"mytfe",
+								"mydomain",
+								"com"
+							],
+							"path": [
+								"api",
+								"v2",
+								"organizations",
+								":organization_name",
+								"workspaces",
+								":name"
+							],
+							"variable": [
+								{
+									"key": "organization_name",
+									"value": "acme-inc"
+								},
+								{
+									"key": "name",
+									"value": "acme-infra-prod-test"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.17.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 02 Jan 2020 17:17:38 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/vnd.api+json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "30"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "29"
+						},
+						{
+							"key": "X-RateLimit-Reset",
+							"value": "0.756"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"37a6259cc0c1dae299a7866489dff0bd\""
+						},
+						{
+							"key": "Cache-Control",
+							"value": "max-age=0, private, must-revalidate"
+						},
+						{
+							"key": "X-Request-Id",
+							"value": "f2b560c6-0dcd-43f5-8d6d-499319d3dba7"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						}
+					],
+					"cookie": [],
+					"body": "null"
+				},
+				{
+					"name": "foo-bar-infra-prod-test workspace not found",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://mytfe.mydomain.com/api/v2/organizations/:organization_name/workspaces/:name",
+							"protocol": "https",
+							"host": [
+								"mytfe",
+								"mydomain",
+								"com"
+							],
+							"path": [
+								"api",
+								"v2",
+								"organizations",
+								":organization_name",
+								"workspaces",
+								":name"
+							],
+							"variable": [
+								{
+									"key": "organization_name",
+									"value": "foo-bar"
+								},
+								{
+									"key": "name",
+									"value": "foo-bar-infra-prod-test"
+								}
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.17.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 02 Jan 2020 17:18:38 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/vnd.api+json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "30"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "29"
+						},
+						{
+							"key": "X-RateLimit-Reset",
+							"value": "0.85"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "X-Request-Id",
+							"value": "5f8210f2-7665-4fa4-9abd-55f85a4e5f60"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"errors\": [\n        {\n            \"status\": \"404\",\n            \"title\": \"not found\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Destroy workspace approle",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/vnd.api+json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{tfe}}/organizations/{{tfe_org}}/workspaces/{{project_name}}-vault-approle",
+					"host": [
+						"{{tfe}}"
+					],
+					"path": [
+						"organizations",
+						"{{tfe_org}}",
+						"workspaces",
+						"{{project_name}}-vault-approle"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "foo-bar-infra-prod-test workspace not found",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://mytfe.mydomain.com/api/v2/organizations/:organization_name/workspaces/:name",
+							"protocol": "https",
+							"host": [
+								"mytfe",
+								"mydomain",
+								"com"
+							],
+							"path": [
+								"api",
+								"v2",
+								"organizations",
+								":organization_name",
+								"workspaces",
+								":name"
+							],
+							"variable": [
+								{
+									"key": "organization_name",
+									"value": "foo-bar"
+								},
+								{
+									"key": "name",
+									"value": "foo-bar-infra-prod-test"
+								}
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.17.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 02 Jan 2020 17:18:38 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/vnd.api+json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "30"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "29"
+						},
+						{
+							"key": "X-RateLimit-Reset",
+							"value": "0.85"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "X-Request-Id",
+							"value": "5f8210f2-7665-4fa4-9abd-55f85a4e5f60"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"errors\": [\n        {\n            \"status\": \"404\",\n            \"title\": \"not found\"\n        }\n    ]\n}"
+				},
+				{
+					"name": "Destroy acme-infra-prod-test workspace",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://mytfe.mydomain.com/api/v2/organizations/:organization_name/workspaces/:name",
+							"protocol": "https",
+							"host": [
+								"mytfe",
+								"mydomain",
+								"com"
+							],
+							"path": [
+								"api",
+								"v2",
+								"organizations",
+								":organization_name",
+								"workspaces",
+								":name"
+							],
+							"variable": [
+								{
+									"key": "organization_name",
+									"value": "acme-inc"
+								},
+								{
+									"key": "name",
+									"value": "acme-infra-prod-test"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.17.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 02 Jan 2020 17:17:38 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/vnd.api+json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "30"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "29"
+						},
+						{
+							"key": "X-RateLimit-Reset",
+							"value": "0.756"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"37a6259cc0c1dae299a7866489dff0bd\""
+						},
+						{
+							"key": "Cache-Control",
+							"value": "max-age=0, private, must-revalidate"
+						},
+						{
+							"key": "X-Request-Id",
+							"value": "f2b560c6-0dcd-43f5-8d6d-499319d3dba7"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						}
+					],
+					"cookie": [],
+					"body": "null"
+				}
+			]
+		},
+		{
+			"name": "Destroy workspace onboarding",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/vnd.api+json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{tfe}}/organizations/{{tfe_org}}/workspaces/{{project_name}}-vault-onboarding",
+					"host": [
+						"{{tfe}}"
+					],
+					"path": [
+						"organizations",
+						"{{tfe_org}}",
+						"workspaces",
+						"{{project_name}}-vault-onboarding"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "foo-bar-infra-prod-test workspace not found",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://mytfe.mydomain.com/api/v2/organizations/:organization_name/workspaces/:name",
+							"protocol": "https",
+							"host": [
+								"mytfe",
+								"mydomain",
+								"com"
+							],
+							"path": [
+								"api",
+								"v2",
+								"organizations",
+								":organization_name",
+								"workspaces",
+								":name"
+							],
+							"variable": [
+								{
+									"key": "organization_name",
+									"value": "foo-bar"
+								},
+								{
+									"key": "name",
+									"value": "foo-bar-infra-prod-test"
+								}
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.17.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 02 Jan 2020 17:18:38 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/vnd.api+json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "30"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "29"
+						},
+						{
+							"key": "X-RateLimit-Reset",
+							"value": "0.85"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "X-Request-Id",
+							"value": "5f8210f2-7665-4fa4-9abd-55f85a4e5f60"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"errors\": [\n        {\n            \"status\": \"404\",\n            \"title\": \"not found\"\n        }\n    ]\n}"
+				},
+				{
+					"name": "Destroy acme-infra-prod-test workspace",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://mytfe.mydomain.com/api/v2/organizations/:organization_name/workspaces/:name",
+							"protocol": "https",
+							"host": [
+								"mytfe",
+								"mydomain",
+								"com"
+							],
+							"path": [
+								"api",
+								"v2",
+								"organizations",
+								":organization_name",
+								"workspaces",
+								":name"
+							],
+							"variable": [
+								{
+									"key": "organization_name",
+									"value": "acme-inc"
+								},
+								{
+									"key": "name",
+									"value": "acme-infra-prod-test"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.17.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 02 Jan 2020 17:17:38 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/vnd.api+json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "30"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "29"
+						},
+						{
+							"key": "X-RateLimit-Reset",
+							"value": "0.756"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"37a6259cc0c1dae299a7866489dff0bd\""
+						},
+						{
+							"key": "Cache-Control",
+							"value": "max-age=0, private, must-revalidate"
+						},
+						{
+							"key": "X-Request-Id",
+							"value": "f2b560c6-0dcd-43f5-8d6d-499319d3dba7"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						}
+					],
+					"cookie": [],
+					"body": "null"
+				}
+			]
+		},
+		{
+			"name": "Destroy vault namespace",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "X-Vault-Token",
+						"value": "{{vault_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{vault}}/v1/sys/namespaces/{{vault_namespace}}",
+					"host": [
+						"{{vault}}"
+					],
+					"path": [
+						"v1",
+						"sys",
+						"namespaces",
+						"{{vault_namespace}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{tfe_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "29efe4ed-c036-4778-954d-c0bedf19ecdb",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "1d5d409a-b5e3-4748-b9bc-c2db22fed3c4",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "c5413bcd-97f1-485c-8c13-c724351316be",
+			"key": "project_name",
+			"value": "PROJECT_NAME",
+			"type": "string"
+		},
+		{
+			"id": "da701f2a-7646-4dab-ad93-977540100008",
+			"key": "tfe",
+			"value": "https://TFE_API_URL/api/v2",
+			"type": "string"
+		},
+		{
+			"id": "cb0c664b-4305-4e94-92e6-1df6cc86dd25",
+			"key": "tfe_token",
+			"value": "TFE_TOKEN",
+			"type": "string"
+		},
+		{
+			"id": "e310187d-e09b-4335-a5bd-ccae8523f6dc",
+			"key": "tfe_org",
+			"value": "ORG",
+			"type": "string"
+		},
+		{
+			"id": "ccfa4be5-2203-4de4-b332-245253bebbf9",
+			"key": "vault",
+			"value": "https://VAULT_API_URL",
+			"type": "string"
+		},
+		{
+			"id": "eb82dcce-8cbf-4043-8870-ae0c138af095",
+			"key": "vault_token",
+			"value": "VAULT_TOKEN",
+			"type": "string"
+		},
+		{
+			"id": "f87512c2-7f1c-4a36-b6f3-f49c23ca151b",
+			"key": "vault_namespace",
+			"value": "VAULT_NAMESPACE",
+			"type": "string"
+		}
+	]
+}

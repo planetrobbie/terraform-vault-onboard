@@ -1,0 +1,6 @@
+*.pem
+files/ca.crt
+files/config.hcl
+files/vault
+vault-image-pull.json
+vault-image.json

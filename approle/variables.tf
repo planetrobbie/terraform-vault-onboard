@@ -1,11 +1,11 @@
 variable "approle_path" {
   description = "AppRole mount point"
-  default = "approle"
+  default     = "approle"
 }
 
 variable "role_name" {
   description = "AppRole role name"
-  default = "terraform"
+  default     = "terraform"
 }
 
 variable "policies" {
@@ -15,25 +15,27 @@ variable "policies" {
 
 variable "namespace" {
   description = "namespace where project will be onboarded"
-  default = ""
+  default     = ""
 }
 
 variable "k8s_path" {
   description = "where k8s auth will be mounted"
+  default     = "k8s"
 }
 
 variable "kv_path" {
   description = "where k/v secret engine is mounted"
+  default     = "kv"
 }
 
 variable "default_lease_ttl_seconds" {
   description = "Default duration of lease validity"
-  default = 3600
+  default     = "3600s"
 }
 
 variable "max_lease_ttl_seconds" {
   description = "Maximum duration of lease validity"
-  default = 10800
+  default     = "10800s"
 }
 
 variable "ssh_path" {

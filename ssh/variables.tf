@@ -24,7 +24,7 @@ variable "ssh_ca_default_extensions" {
 
 variable "ssh_ca_ttl" {
   description = "Specifies the maximum Time To Live value."
-  default     = "5m0s"
+  default     = "300"
 }
 
 variable "ssh_otp_role" {

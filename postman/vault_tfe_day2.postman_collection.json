@@ -1,0 +1,227 @@
+{
+	"info": {
+		"_postman_id": "994195e0-3bb2-40bc-b510-1f911360b75e",
+		"name": "HashiCorp Vault TFE day 2 published",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Enable ssh secret engine",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3344b560-6f85-46eb-a09a-303ec618d1d8",
+						"exec": [
+							"let responseData=pm.response.json();",
+							"pm.environment.set('id_var_ssh',responseData.data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/vnd.api+json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"data\": {\n\t\t\"type\":\"vars\",\n    \"attributes\": {\n      \"key\":\"module_ssh\",\n      \"value\":\"1\",\n      \"category\":\"terraform\",\n      \"hcl\":false,\n      \"sensitive\":false\n    },\n\t\t\"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"id\":\"{{id_ws_vault_onboarding}}\",\n          \"type\":\"workspaces\"\n        }\n      }\n    }\n  }\n}"
+				},
+				"url": {
+					"raw": "{{tfe}}/vars",
+					"host": [
+						"{{tfe}}"
+					],
+					"path": [
+						"vars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Plan/Apply",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "80f99ff2-0567-4923-a0b2-3bd68bb1ff47",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "988f482c-faa2-4e6b-bc47-55c198f930de",
+						"exec": [
+							"setTimeout(function(){}, 5000);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/vnd.api+json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"is-destroy\": false,\n      \"message\": \"API driven run\"\n    },\n    \"type\":\"runs\",\n    \"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"type\": \"workspaces\",\n          \"id\": \"{{id_ws_vault_onboarding}}\"\n        }\n      }\n    }\n  }\n}"
+				},
+				"url": {
+					"raw": "{{tfe}}/runs",
+					"host": [
+						"{{tfe}}"
+					],
+					"path": [
+						"runs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Disable ssh secret engine",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/vnd.api+json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{tfe}}/vars/{{id_var_ssh}}",
+					"host": [
+						"{{tfe}}"
+					],
+					"path": [
+						"vars",
+						"{{id_var_ssh}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Plan/Apply",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "80f99ff2-0567-4923-a0b2-3bd68bb1ff47",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "988f482c-faa2-4e6b-bc47-55c198f930de",
+						"exec": [
+							"setTimeout(function(){}, 5000);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/vnd.api+json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"is-destroy\": false,\n      \"message\": \"API driven run\"\n    },\n    \"type\":\"runs\",\n    \"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"type\": \"workspaces\",\n          \"id\": \"{{id_ws_vault_onboarding}}\"\n        }\n      }\n    }\n  }\n}"
+				},
+				"url": {
+					"raw": "{{tfe}}/runs",
+					"host": [
+						"{{tfe}}"
+					],
+					"path": [
+						"runs"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{tfe_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "fa0c1117-8193-4303-b03b-a1297818516e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "74216e4b-0830-433c-99df-0c1437a11b10",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "4486ab20-dd92-4e18-8729-0a2ed88af7ef",
+			"key": "tfe",
+			"value": "https://TFE_API_URL/api/v2",
+			"type": "string"
+		},
+		{
+			"id": "12cea9e9-efb0-4f4c-9ed8-9d5829506fe0",
+			"key": "tfe_token",
+			"value": "TFE_TOKEN",
+			"type": "string"
+		},
+		{
+			"id": "b8c93335-d0b0-487d-902c-2503da85aef8",
+			"key": "id_ws_vault_onboarding",
+			"value": "ID_WS_VAULT_ONBOARDING",
+			"type": "string"
+		}
+	]
+}

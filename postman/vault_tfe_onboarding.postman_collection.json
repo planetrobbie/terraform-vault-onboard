@@ -1,0 +1,893 @@
+{
+	"info": {
+		"_postman_id": "ba83e9e8-844f-48cc-a44d-cd850d1795fe",
+		"name": "HashiCorp Vault TFE published",
+		"description": "Onboarding a Project team on Vault",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "namespace",
+			"item": [
+				{
+					"name": "Create namespace workspace",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8e637d5d-8c6e-414c-9818-ab62aff104cd",
+								"exec": [
+									"let responseData=pm.response.json();",
+									"",
+									"console.log(responseData);",
+									"",
+									"pm.environment.set('id_ws_namespace',responseData.data.id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"data\": {\n      \"attributes\": {\n        \"name\": \"{{project_name}}-vault-namespace\",\n        \"auto-apply\": true,\n        \"description\": \"API created workspace for namespace\",\n        \"queue-all-runs\": false,\n        \"speculative-enabled\": true,\n        \"terraform-version\": \"0.13.1\",\n        \"working-directory\": \"namespace\",\n        \"vcs-repo\": {\n          \"oauth-token-id\": \"{{vcs_oauth-token-id}}\",\n          \"branch\": \"\",\n          \"identifier\": \"{{vcs_identifier}}\",\n          \"default-branch\": true\n        }\n      },\n      \"type\": \"workspaces\"\n    }\n  }"
+						},
+						"url": {
+							"raw": "{{tfe}}/organizations/{{tfe_org}}/workspaces",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"organizations",
+								"{{tfe_org}}",
+								"workspaces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create VAULT_ADDR env var",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n\t\t\"type\":\"vars\",\n    \"attributes\": {\n      \"key\":\"VAULT_ADDR\",\n      \"value\":\"{{vault}}\",\n      \"category\":\"env\",\n      \"hcl\":false,\n      \"sensitive\":false\n    },\n\t\t\"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"id\":\"{{id_ws_namespace}}\",\n          \"type\":\"workspaces\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{tfe}}/vars",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"vars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create VAULT_TOKEN env var",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n\t\t\"type\":\"vars\",\n    \"attributes\": {\n      \"key\":\"VAULT_TOKEN\",\n      \"value\":\"{{vault_token}}\",\n      \"category\":\"env\",\n      \"hcl\":false,\n      \"sensitive\":false\n    },\n\t\t\"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"id\":\"{{id_ws_namespace}}\",\n          \"type\":\"workspaces\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{tfe}}/vars",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"vars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create VAULT_SKIP_VERIFY env var",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n\t\t\"type\":\"vars\",\n    \"attributes\": {\n      \"key\":\"VAULT_SKIP_VERIFY\",\n      \"value\":\"true\",\n      \"category\":\"env\",\n      \"hcl\":false,\n      \"sensitive\":false\n    },\n\t\t\"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"id\":\"{{id_ws_namespace}}\",\n          \"type\":\"workspaces\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{tfe}}/vars",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"vars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create namespace tf var",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n\t\t\"type\":\"vars\",\n    \"attributes\": {\n      \"key\":\"namespace\",\n      \"value\":\"{{vault_namespace}}\",\n      \"category\":\"terraform\",\n      \"hcl\":false,\n      \"sensitive\":false\n    },\n\t\t\"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"id\":\"{{id_ws_namespace}}\",\n          \"type\":\"workspaces\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{tfe}}/vars",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"vars"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "approle",
+			"item": [
+				{
+					"name": "Create approle workspace",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8e637d5d-8c6e-414c-9818-ab62aff104cd",
+								"exec": [
+									"let responseData=pm.response.json();",
+									"",
+									"console.log(responseData);",
+									"",
+									"pm.environment.set('id_ws_approle',responseData.data.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"data\": {\n      \"attributes\": {\n        \"name\": \"{{project_name}}-vault-approle\",\n        \"auto-apply\": true,\n        \"description\": \"API created workspace for approle\",\n        \"queue-all-runs\": false,\n        \"speculative-enabled\": true,\n        \"terraform-version\": \"0.13.1\",\n        \"working-directory\": \"approle\",\n        \"vcs-repo\": {\n          \"oauth-token-id\": \"{{vcs_oauth-token-id}}\",\n          \"branch\": \"\",\n          \"identifier\": \"{{vcs_identifier}}\",\n          \"default-branch\": true\n        }\n      },\n      \"type\": \"workspaces\"\n    }\n  }"
+						},
+						"url": {
+							"raw": "{{tfe}}/organizations/{{tfe_org}}/workspaces",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"organizations",
+								"{{tfe_org}}",
+								"workspaces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create VAULT_ADDR env var",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n\t\t\"type\":\"vars\",\n    \"attributes\": {\n      \"key\":\"VAULT_ADDR\",\n      \"value\":\"{{vault}}\",\n      \"category\":\"env\",\n      \"hcl\":false,\n      \"sensitive\":false\n    },\n\t\t\"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"id\":\"{{id_ws_approle}}\",\n          \"type\":\"workspaces\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{tfe}}/vars",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"vars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create VAULT_TOKEN env var",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n\t\t\"type\":\"vars\",\n    \"attributes\": {\n      \"key\":\"VAULT_TOKEN\",\n      \"value\":\"{{vault_token}}\",\n      \"category\":\"env\",\n      \"hcl\":false,\n      \"sensitive\":false\n    },\n\t\t\"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"id\":\"{{id_ws_approle}}\",\n          \"type\":\"workspaces\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{tfe}}/vars",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"vars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create VAULT_SKIP_VERIFY env var",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n\t\t\"type\":\"vars\",\n    \"attributes\": {\n      \"key\":\"VAULT_SKIP_VERIFY\",\n      \"value\":\"true\",\n      \"category\":\"env\",\n      \"hcl\":false,\n      \"sensitive\":false\n    },\n\t\t\"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"id\":\"{{id_ws_approle}}\",\n          \"type\":\"workspaces\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{tfe}}/vars",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"vars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create namespace tf var",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n\t\t\"type\":\"vars\",\n    \"attributes\": {\n      \"key\":\"namespace\",\n      \"value\":\"{{vault_namespace}}\",\n      \"category\":\"terraform\",\n      \"hcl\":false,\n      \"sensitive\":false\n    },\n\t\t\"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"id\":\"{{id_ws_approle}}\",\n          \"type\":\"workspaces\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{tfe}}/vars",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"vars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Run Trigger",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "c65f04af-efad-484c-913f-65d242e12fc6",
+								"exec": [
+									"setTimeout(function(){}, 5000);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"relationships\": {\n      \"sourceable\": {\n        \"data\": {\n          \"id\": \"{{id_ws_namespace}}\",\n          \"type\": \"workspaces\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{tfe}}/workspaces/{{id_ws_approle}}/run-triggers",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"workspaces",
+								"{{id_ws_approle}}",
+								"run-triggers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "execute",
+			"item": [
+				{
+					"name": "Plan/Apply workspace namespace",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "80f99ff2-0567-4923-a0b2-3bd68bb1ff47",
+								"exec": [
+									"setTimeout(function(){}, 5000);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"is-destroy\": false,\n      \"message\": \"API driven run\"\n    },\n    \"type\":\"runs\",\n    \"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"type\": \"workspaces\",\n          \"id\": \"{{id_ws_namespace}}\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{tfe}}/runs",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"runs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "approle_run_id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6c94262e-d2d1-4774-9ba2-ce8ef74a6d39",
+								"exec": [
+									"let responseData=pm.response.json();",
+									"",
+									"console.log(responseData);",
+									"",
+									"if (responseData.data[0] && 'responseData.data[0].attributes.actions.is-discardable') {",
+									"        pm.environment.set('id_runs_approle',responseData.data[0].id);",
+									"       ",
+									"        // waiting until the plan ends to follow on",
+									"        setTimeout(function(){}, 20000);",
+									"} ",
+									"else",
+									"{",
+									"    postman.setNextRequest(\"approle_run_id\")",
+									"    setTimeout(function(){}, 5000);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1cdb4990-00ba-4a1a-a26d-bb34b985b904",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{tfe}}/workspaces/{{id_ws_approle}}/runs",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"workspaces",
+								"{{id_ws_approle}}",
+								"runs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Plan/Apply workspace approle",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a382f5da-82b9-444b-96e6-66c76308eaa7",
+								"exec": [
+									"setTimeout(function(){}, 10000);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"comment\":\"Applied from TFE API\"\n}"
+						},
+						"url": {
+							"raw": "{{tfe}}/runs/{{id_runs_approle}}/actions/apply",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"runs",
+								"{{id_runs_approle}}",
+								"actions",
+								"apply"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b0fbace7-cd42-4e4b-8496-66fd9b993ba9",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "465c10a6-852c-46bd-9323-92d7e9235849",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "onboarding",
+			"item": [
+				{
+					"name": "Create onboarding workspace",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8e637d5d-8c6e-414c-9818-ab62aff104cd",
+								"exec": [
+									"let responseData=pm.response.json();",
+									"",
+									"console.log(responseData);",
+									"",
+									"pm.environment.set('id_ws_onboarding',responseData.data.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"data\": {\n      \"attributes\": {\n        \"name\": \"{{project_name}}-vault-onboarding\",\n        \"auto-apply\": true,\n        \"description\": \"API created workspace for project onboarding\",\n        \"queue-all-runs\": false,\n        \"speculative-enabled\": true,\n        \"terraform-version\": \"0.13.1\",\n        \"working-directory\": \"\",\n        \"vcs-repo\": {\n          \"oauth-token-id\": \"{{vcs_oauth-token-id}}\",\n          \"branch\": \"\",\n          \"identifier\": \"{{vcs_identifier}}\",\n          \"default-branch\": true\n        }\n      },\n      \"type\": \"workspaces\"\n    }\n  }"
+						},
+						"url": {
+							"raw": "{{tfe}}/organizations/{{tfe_org}}/workspaces",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"organizations",
+								"{{tfe_org}}",
+								"workspaces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create VAULT_ADDR env var",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n\t\t\"type\":\"vars\",\n    \"attributes\": {\n      \"key\":\"VAULT_ADDR\",\n      \"value\":\"{{vault}}\",\n      \"category\":\"env\",\n      \"hcl\":false,\n      \"sensitive\":false\n    },\n\t\t\"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"id\":\"{{id_ws_onboarding}}\",\n          \"type\":\"workspaces\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{tfe}}/vars",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"vars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create ATLAS_TOKEN env var",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n\t\t\"type\":\"vars\",\n    \"attributes\": {\n      \"key\":\"ATLAS_TOKEN\",\n      \"value\":\"{{tfe_token}}\",\n      \"category\":\"env\",\n      \"hcl\":false,\n      \"sensitive\":true\n    },\n\t\t\"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"id\":\"{{id_ws_onboarding}}\",\n          \"type\":\"workspaces\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{tfe}}/vars",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"vars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create VAULT_SKIP_VERIFY env var",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n\t\t\"type\":\"vars\",\n    \"attributes\": {\n      \"key\":\"VAULT_SKIP_VERIFY\",\n      \"value\":\"true\",\n      \"category\":\"env\",\n      \"hcl\":false,\n      \"sensitive\":false\n    },\n\t\t\"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"id\":\"{{id_ws_onboarding}}\",\n          \"type\":\"workspaces\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{tfe}}/vars",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"vars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create namespace tf var",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n\t\t\"type\":\"vars\",\n    \"attributes\": {\n      \"key\":\"namespace\",\n      \"value\":\"{{vault_namespace}}\",\n      \"category\":\"terraform\",\n      \"hcl\":false,\n      \"sensitive\":false\n    },\n\t\t\"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"id\":\"{{id_ws_onboarding}}\",\n          \"type\":\"workspaces\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{tfe}}/vars",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"vars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create approle_workspace_name tf var",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n\t\t\"type\":\"vars\",\n    \"attributes\": {\n      \"key\":\"approle_workspace_name\",\n      \"value\":\"{{project_name}}-vault-approle\",\n      \"category\":\"terraform\",\n      \"hcl\":false,\n      \"sensitive\":false\n    },\n\t\t\"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"id\":\"{{id_ws_onboarding}}\",\n          \"type\":\"workspaces\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{tfe}}/vars",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"vars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enable kv secret engine",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n\t\t\"type\":\"vars\",\n    \"attributes\": {\n      \"key\":\"module_kv\",\n      \"value\":\"1\",\n      \"category\":\"terraform\",\n      \"hcl\":false,\n      \"sensitive\":false\n    },\n\t\t\"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"id\":\"{{id_ws_onboarding}}\",\n          \"type\":\"workspaces\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{tfe}}/vars",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"vars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Plan/Apply namespace creation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "80f99ff2-0567-4923-a0b2-3bd68bb1ff47",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "988f482c-faa2-4e6b-bc47-55c198f930de",
+								"exec": [
+									"setTimeout(function(){}, 5000);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"is-destroy\": false,\n      \"message\": \"API driven run\"\n    },\n    \"type\":\"runs\",\n    \"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"type\": \"workspaces\",\n          \"id\": \"{{id_ws_onboarding}}\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{tfe}}/runs",
+							"host": [
+								"{{tfe}}"
+							],
+							"path": [
+								"runs"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{tfe_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "b9146358-869a-4cf6-a492-d5d174d7e4cb",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "f89515f1-6183-4a03-a6e1-503a1c43b059",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "1975c586-a7ee-4e61-a541-4f6dc9966740",
+			"key": "project_name",
+			"value": "PROJECT_NAME",
+			"type": "string"
+		},
+		{
+			"id": "1a601d29-1b75-4266-8600-43b64c8bb7c9",
+			"key": "tfe",
+			"value": "https://TFE_API_URL/api/v2",
+			"type": "string"
+		},
+		{
+			"id": "b9ffaabc-d226-445f-83f1-195a719f9365",
+			"key": "tfe_token",
+			"value": "TFE_TOKEN",
+			"type": "string"
+		},
+		{
+			"id": "455914a7-f290-4ee2-921c-47bf94f560b8",
+			"key": "tfe_org",
+			"value": "ORG",
+			"type": "string"
+		},
+		{
+			"id": "22805567-9fd8-4cea-8aa9-cb23a5096ecf",
+			"key": "vault",
+			"value": "https://VAULT_API_URL",
+			"type": "string"
+		},
+		{
+			"id": "1279275d-446b-4c6c-a6e7-dcf0c2332fdc",
+			"key": "vault_token",
+			"value": "VAULT_TOKEN",
+			"type": "string"
+		},
+		{
+			"id": "7217aa98-5602-452f-b124-ed3a93b179a6",
+			"key": "vault_namespace",
+			"value": "VAULT_NAMESPACE",
+			"type": "string"
+		},
+		{
+			"id": "05b20d23-a2b8-4842-a35e-cc7c2ad01541",
+			"key": "vcs_identifier",
+			"value": "VCS_IDENTIFIER",
+			"type": "string"
+		},
+		{
+			"id": "169955da-f9f3-4b8a-9812-005536488bb0",
+			"key": "vcs_oauth-token-id",
+			"value": "VCS_OAUTH_TOKEN_ID",
+			"type": "string"
+		}
+	]
+}
